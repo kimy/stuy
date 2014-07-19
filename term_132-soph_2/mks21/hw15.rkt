@@ -1,0 +1,36 @@
+x(display "Preliminary Function: isPrefix?") (newline)
+(define (isPrefix? Submaybe Main)
+  (cond 
+    ;base case 
+    ((null? Submaybe) #t)
+    ;special case
+    ((and (= 1 (length Submaybe)) (equal? Submaybe (list (car Main)))) #t)  
+    ;recursive case 
+    ((and (<= (length Submaybe) (length Main)) (equal? (list (car Main)) (list (car Submaybe)))
+         (isPrefix? (cdr Submaybe) (cdr Main))) #t)
+    ;what the function will return for everything else
+    (else #f)
+   )
+) ;end of define
+
+
+;-----------------------------------------------------------------------------------------------------------------
+(display "Problem: isSublist?") (newline)
+(define (isSublist? subList Main)
+  (cond 
+    ;base case
+    ((isPrefix? subList Main) #t)
+    ;recursive case with specific restriction (subList cannot have a longer length than the Main list)
+    ((and (< (length subList) (length Main)) (isSublist? subList (cdr Main))) #t)
+    ;if it doesn't fit for the following then return #f 
+    (else #f)
+    )
+  ) ;end of define 
+
+;test
+(isSublist? '(a b c) '(a b c d)) "...should be #t"
+(isSublist? '(2 3 4 5) '(1 2 3 4)) "...should be #f"
+(isSublist? '( ) '(Yubin Kim)) "...should be #t"
+(isSublist? '(1 2 3 4 5 6) '(1 2 3 5 6 7)) "...should be #f"
+(isSublist? '(1 2) '(1)) "...should be #f" 
+
